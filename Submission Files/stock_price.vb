@@ -3,7 +3,7 @@ Sub StockPrice()
 ' Loop through each worksheet
 For Each ws In Worksheets
 
-    ' Define yearly change, % change, and total colume as variables
+    ' Define yearly change, percent change, and total volume as variables
     Dim yr_ch As Double
     Dim pc_ch As Double
     Dim total As Double
@@ -34,18 +34,18 @@ For Each ws In Worksheets
     ' Grab the open price for the first ticker
     open_price = ws.Cells(2, 3).Value
     
-    ' Interate through the rows
-    For j = 2 To LastRow
+    ' Loop through the rows
+    For i = 2 To LastRow
     
         ' If the next ticker name is different from the active cell...
-        If ws.Cells(j + 1, 1).Value <> ws.Cells(j, 1).Value Then
+        If ws.Cells(i + 1, 1).Value <> ws.Cells(i, 1).Value Then
         
         ' Output the active cell ticker name in the summary table
-        ws.Cells(summary_table_row, 9).Value = ws.Cells(j, 1).Value
+        ws.Cells(summary_table_row, 9).Value = ws.Cells(i, 1).Value
         
         ' Calculate and output the yearly change in the summary table
             ' Grab the closing price
-            close_price = ws.Cells(j, 6).Value
+            close_price = ws.Cells(i, 6).Value
             ' Subtract the opening price from the closing price to calculate yearly change
             yr_ch = close_price - open_price
         ' Output into summary table
@@ -60,7 +60,7 @@ For Each ws In Worksheets
         ws.Cells(summary_table_row, 11).NumberFormat = "0.00%"
         
         ' Add to the total volume
-        total = total + ws.Cells(j, 7).Value
+        total = total + ws.Cells(i, 7).Value
         
         ' Output the total in the summary table
         ws.Cells(summary_table_row, 12).Value = total
@@ -85,7 +85,21 @@ For Each ws In Worksheets
         
         End If
         
-    Next j
+    Next i
+
+    ' Declare a new last row
+    LastRow = ws.Cells(Rows.Count, 11).End(xlUp).Row
+    
+    ' Another loop to highlight cells in percent change column based on value
+    For i = 2 To LastRow
+    
+        If ws.Cells(i, 11) > 0 Then
+        ws.Cells(i, 11).Interior.ColorIndex = 4
+        Else
+        ws.Cells(i, 11).Interior.ColorIndex = 3
+        End If
+        
+    Next i
 
 Next ws
 
