@@ -101,6 +101,43 @@ For Each ws In Worksheets
         
     Next i
 
+    ' Create another summary table for greatest percent increase/decrease and greatest volume
+
+    ws.Range(O1) = "Ticker"
+    ws.Range(P1) = "Value"
+
+    dim pc_cell as Range
+    dim vol_cell as Range
+    Dim pc_range as Range
+    Dim vol_range as Range
+
+    Set pc_range = ws.Range("K" & LastRow)
+    Set vol_range = ws.Range("L" & LastRow)
+
+    greatest_dec = application.WorksheetFunction.Min(pc_range)
+    greatest_inc = application.WorksheetFunction.Max(pc_range)
+    greatest_vol = application.WorksheetFunction.Max(vol_range)
+
+    For each pc_cell in pc_range
+    
+        If pc_cell.Value = greatest_inc Then
+        ws.Range("P2") = greatest_inc
+        ElseIf pc_cell.Value = greatest_dec Then
+        ws.Range("P3") = greatest_dec
+        Else
+        End If
+        
+    Next
+
+    For Each vol_cell In vol_range
+    
+        If vol_cell.Value = greatest_vol Then
+        ws.Range("P4") = greatest_vol
+        Else
+        End If
+        
+    Next
+
 Next ws
 
 End Sub
