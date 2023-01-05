@@ -88,7 +88,7 @@ For Each ws In Worksheets
     Next i
 
     ' Declare a new last row
-    LastRow = ws.Cells(Rows.Count, 11).End(xlUp).Row
+    LastRow = ws.Cells(Rows.Count, K).End(xlUp).Row
     
     ' Another loop to highlight cells in percent change column based on value
     For i = 2 To LastRow
@@ -102,41 +102,32 @@ For Each ws In Worksheets
     Next i
 
     ' Create another summary table for greatest percent increase/decrease and greatest volume
-
+    ' Create headers
     ws.Range(O1) = "Ticker"
     ws.Range(P1) = "Value"
+    ws.Range("N2") = "Greatest Increase"
+    ws.Range("N3") = "Greatest Decrease"
+    ws.Range("N4") = "Greatest Volume"
 
-    dim pc_cell as Range
-    dim vol_cell as Range
+    ' Define and set the percent range and volume range
     Dim pc_range as Range
     Dim vol_range as Range
 
-    Set pc_range = ws.Range("K" & LastRow)
-    Set vol_range = ws.Range("L" & LastRow)
+    Set pc_range = ws.Range("K2:K" & LastRow)
+    Set vol_range = ws.Range("L2:L" & LastRow)
 
+    ' Define variables for the greatest increase, greatest decrease, and greatest volume
     greatest_dec = application.WorksheetFunction.Min(pc_range)
     greatest_inc = application.WorksheetFunction.Max(pc_range)
     greatest_vol = application.WorksheetFunction.Max(vol_range)
 
-    For each pc_cell in pc_range
+    ' Output greatest increase, greatest decrease, and greatest volume
+    ws.Range("P2").Value = greatest_inc
+    ws.Range("P3").Value = greatest_dec
+    ws.Range("P4").Value = greatest_vol
     
-        If pc_cell.Value = greatest_inc Then
-        ws.Range("P2") = greatest_inc
-        ElseIf pc_cell.Value = greatest_dec Then
-        ws.Range("P3") = greatest_dec
-        Else
-        End If
-        
-    Next
-
-    For Each vol_cell In vol_range
-    
-        If vol_cell.Value = greatest_vol Then
-        ws.Range("P4") = greatest_vol
-        Else
-        End If
-        
-    Next
+    ' Format as percentages
+    ws.Range("P2:P3").NumberFormat = "0.00%"
 
 Next ws
 
