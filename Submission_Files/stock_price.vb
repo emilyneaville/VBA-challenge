@@ -105,8 +105,8 @@ For Each ws In Worksheets
     ' Create headers
     ws.Range(O1) = "Ticker"
     ws.Range(P1) = "Value"
-    ws.Range("N2") = "Greatest Increase"
-    ws.Range("N3") = "Greatest Decrease"
+    ws.Range("N2") = "Greatest % Increase"
+    ws.Range("N3") = "Greatest % Decrease"
     ws.Range("N4") = "Greatest Volume"
 
     ' Define and set the percent range and volume range
